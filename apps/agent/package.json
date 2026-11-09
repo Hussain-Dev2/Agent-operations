@@ -1,0 +1,26 @@
+{
+  "name": "@operator/agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "operator-agent": "./src/cli.ts"
+  },
+  "scripts": {
+    "build": "bun build src/cli.ts --compile --minify --sourcemap --external x11 --outfile dist/operator-agent",
+    "build:all": "for t in bun-linux-x64 bun-linux-arm64 bun-darwin-x64 bun-darwin-arm64 bun-windows-x64; do bun build src/cli.ts --compile --minify --external x11 --target=$t --outfile dist/operator-agent-$t || exit 1; done",
+    "lint": "eslint src",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "bun test --timeout 30000",
+    "agent": "bun src/cli.ts"
+  },
+  "dependencies": {
+    "@operator/shared": "workspace:*",
+    "@particle/dbus-next": "^0.11.4",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@operator/hub": "workspace:*",
+    "@types/bun": "^1.4.4"
+  }
+}

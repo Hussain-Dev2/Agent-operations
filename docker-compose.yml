@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: operator
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-operator-dev}
+      POSTGRES_DB: operator
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U operator"]
+      interval: 2s
+      retries: 20
+
+volumes:
+  pgdata:
